@@ -1,604 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Programming Master - Learn Programming</title>
+    <title>Programming Master - Complete Learning Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0e27;
-            overflow-x: hidden;
-        }
-
-        .navbar {
-            background: #1e1e2e;
-            border-bottom: 1px solid #2d2d44;
-            padding: 12px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo i {
-            font-size: 24px;
-            color: #00a6ff;
-        }
-
-        .logo h1 {
-            font-size: 18px;
-            background: linear-gradient(135deg, #00a6ff, #00ff9d);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .language-selector {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .lang-btn {
-            padding: 6px 14px;
-            background: #2d2d44;
-            border: none;
-            border-radius: 20px;
-            color: #a0a0c0;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-
-        .lang-btn:hover, .lang-btn.active {
-            background: #00a6ff;
-            color: white;
-        }
-
-        /* Main Layout - Same on all devices */
-        .main-container {
-            display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: calc(100vh - 60px);
-        }
-
-        /* Sidebar - Fixed width, always visible */
-        .sidebar {
-            width: 280px;
-            background: #1e1e2e;
-            border-right: 1px solid #2d2d44;
-            padding: 20px 12px;
-            position: sticky;
-            top: 60px;
-            height: calc(100vh - 60px);
-            overflow-y: auto;
-        }
-
-        .sidebar h3 {
-            color: white;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            padding-left: 8px;
-        }
-
-        .topic-list {
-            list-style: none;
-        }
-
-        .topic-list li {
-            margin-bottom: 4px;
-        }
-
-        .topic-list a {
-            color: #a0a0c0;
-            text-decoration: none;
-            display: block;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .topic-list a:hover, .topic-list a.active {
-            background: #2d2d44;
-            color: #00a6ff;
-        }
-
-        /* Hide sidebar on non-home pages */
-        .sidebar.hide-sidebar {
-            display: none;
-        }
-
-        /* Content Area */
-        .content-area {
-            flex: 1;
-            padding: 20px 30px;
-            background: #0a0e27;
-        }
-
-        /* When sidebar hidden, content takes full width */
-        .sidebar.hide-sidebar + .content-area {
-            width: 100%;
-        }
-
-        .topic-header h2 {
-            font-size: 28px;
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .content h3 {
-            color: #00a6ff;
-            font-size: 18px;
-            margin: 20px 0 12px 0;
-        }
-
-        .content p {
-            color: #e0e0e0;
-            line-height: 1.6;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
-        .content ul {
-            color: #e0e0e0;
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        .content li {
-            margin: 6px 0;
-            font-size: 14px;
-        }
-
-        .code-block {
-            background: #1e1e2e;
-            border-radius: 10px;
-            margin: 15px 0;
-            overflow: hidden;
-            border: 1px solid #2d2d44;
-        }
-
-        .code-header {
-            background: #2d2d44;
-            padding: 8px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .code-header span {
-            color: #00a6ff;
-            font-family: monospace;
-            font-size: 12px;
-        }
-
-        .copy-btn {
-            background: transparent;
-            border: none;
-            color: #a0a0c0;
-            cursor: pointer;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-        }
-
-        .copy-btn:hover {
-            background: #3d3d5c;
-            color: white;
-        }
-
-        pre {
-            margin: 0;
-            padding: 15px;
-            overflow-x: auto;
-            font-family: 'Fira Code', monospace;
-            font-size: 13px;
-            line-height: 1.5;
-            color: #d4d4d4;
-            background: #1e1e2e;
-        }
-
-        .quiz-section {
-            background: #1e1e2e;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 25px;
-            border: 1px solid #2d2d44;
-        }
-
-        .quiz-section h3 {
-            color: white;
-            margin-bottom: 12px;
-            font-size: 18px;
-        }
-
-        .quiz-question h4 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .quiz-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 15px;
-            background: #2d2d44;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .quiz-option:hover {
-            background: #3d3d5c;
-        }
-
-        .quiz-option input {
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .quiz-option label {
-            color: #e0e0e0;
-            cursor: pointer;
-            flex: 1;
-            font-size: 14px;
-        }
-
-        .quiz-feedback {
-            padding: 12px;
-            border-radius: 8px;
-            margin: 12px 0;
-            display: none;
-            font-size: 14px;
-        }
-
-        .quiz-feedback.correct {
-            background: rgba(0, 255, 100, 0.15);
-            border-left: 3px solid #00ff64;
-            color: #a0ffa0;
-            display: block;
-        }
-
-        .quiz-feedback.wrong {
-            background: rgba(255, 80, 80, 0.15);
-            border-left: 3px solid #ff5555;
-            color: #ffaaaa;
-            display: block;
-        }
-
-        .btn-check {
-            background: linear-gradient(135deg, #00a6ff, #00ff9d);
-            color: #0a0e27;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 14px;
-            transition: transform 0.2s;
-        }
-
-        .btn-check:hover {
-            transform: translateY(-1px);
-        }
-
-        /* ========== MOBILE - SAME AS PC LAYOUT ========== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0e27; overflow-x: hidden; }
+        .navbar { background: #1e1e2e; border-bottom: 1px solid #2d2d44; padding: 12px 20px; position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .logo { display: flex; align-items: center; gap: 8px; }
+        .logo i { font-size: 24px; color: #00a6ff; }
+        .logo h1 { font-size: 18px; background: linear-gradient(135deg, #00a6ff, #00ff9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .language-selector { display: flex; gap: 8px; flex-wrap: wrap; }
+        .lang-btn { padding: 6px 14px; background: #2d2d44; border: none; border-radius: 20px; color: #a0a0c0; cursor: pointer; font-weight: 500; font-size: 13px; transition: all 0.2s; }
+        .lang-btn:hover, .lang-btn.active { background: #00a6ff; color: white; }
+        .main-container { display: flex; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 60px); }
+        .sidebar { width: 280px; background: #1e1e2e; border-right: 1px solid #2d2d44; padding: 20px 12px; position: sticky; top: 60px; height: calc(100vh - 60px); overflow-y: auto; }
+        .sidebar h3 { color: white; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; padding-left: 8px; }
+        .topic-list { list-style: none; }
+        .topic-list li { margin-bottom: 4px; }
+        .topic-list a { color: #a0a0c0; text-decoration: none; display: block; padding: 8px 12px; border-radius: 8px; font-size: 14px; transition: all 0.2s; }
+        .topic-list a:hover, .topic-list a.active { background: #2d2d44; color: #00a6ff; }
+        .progress-container { margin-top: 20px; padding-top: 15px; border-top: 1px solid #2d2d44; }
+        .progress-text { color: #a0a0c0; font-size: 12px; margin-bottom: 8px; text-align: center; }
+        .progress-bar { background: #2d2d44; height: 6px; border-radius: 10px; overflow: hidden; }
+        .progress-fill { background: linear-gradient(90deg, #00a6ff, #00ff9d); height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 10px; }
+        .content-area { flex: 1; padding: 20px 30px; background: #0a0e27; }
+        .topic-header h2 { font-size: 28px; color: white; margin-bottom: 10px; }
+        .quiz-counter { color: #00a6ff; font-size: 14px; margin-bottom: 20px; }
+        .content h3 { color: #00a6ff; font-size: 18px; margin: 20px 0 12px 0; }
+        .content p { color: #e0e0e0; line-height: 1.6; margin-bottom: 12px; font-size: 14px; }
+        .code-block { background: #1e1e2e; border-radius: 10px; margin: 15px 0; overflow: hidden; border: 1px solid #2d2d44; }
+        .code-header { background: #2d2d44; padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .code-header span { color: #00a6ff; font-family: monospace; font-size: 12px; }
+        .copy-btn { background: transparent; border: none; color: #a0a0c0; cursor: pointer; padding: 4px 10px; border-radius: 5px; font-size: 12px; }
+        .copy-btn:hover { background: #3d3d5c; color: white; }
+        pre { margin: 0; padding: 15px; overflow-x: auto; font-family: monospace; font-size: 13px; line-height: 1.5; color: #d4d4d4; background: #1e1e2e; }
+        .quiz-section { background: #1e1e2e; border-radius: 12px; padding: 20px; margin-top: 25px; border: 1px solid #2d2d44; }
+        .quiz-section h3 { color: white; margin-bottom: 12px; font-size: 18px; }
+        .quiz-question h4 { color: white; margin-bottom: 15px; font-size: 16px; line-height: 1.4; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .quiz-option { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: #2d2d44; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { background: #3d3d5c; }
+        .quiz-option input { width: 16px; height: 16px; cursor: pointer; }
+        .quiz-option label { color: #e0e0e0; cursor: pointer; flex: 1; font-size: 14px; }
+        .quiz-feedback { padding: 12px; border-radius: 8px; margin: 12px 0; display: none; font-size: 14px; }
+        .quiz-feedback.correct { background: rgba(0, 255, 100, 0.15); border-left: 3px solid #00ff64; color: #a0ffa0; display: block; }
+        .quiz-feedback.wrong { background: rgba(255, 80, 80, 0.15); border-left: 3px solid #ff5555; color: #ffaaaa; display: block; }
+        .btn-check { background: linear-gradient(135deg, #00a6ff, #00ff9d); color: #0a0e27; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; transition: transform 0.2s; }
+        .btn-check:hover { transform: translateY(-1px); }
+        .quiz-nav { display: flex; justify-content: space-between; margin-top: 15px; gap: 10px; align-items: center; }
+        .quiz-nav-btn { background: #2d2d44; border: none; padding: 8px 15px; border-radius: 8px; color: white; cursor: pointer; font-size: 12px; transition: all 0.2s; }
+        .quiz-nav-btn:hover { background: #00a6ff; }
         @media (max-width: 768px) {
-            .navbar {
-                padding: 8px 12px;
-            }
-            
-            .logo i {
-                font-size: 20px;
-            }
-            
-            .logo h1 {
-                font-size: 14px;
-            }
-            
-            .lang-btn {
-                padding: 4px 10px;
-                font-size: 11px;
-            }
-            
-            /* Same flex layout as PC */
-            .main-container {
-                display: flex;
-                flex-direction: row;
-            }
-            
-            /* Sidebar fixed width on mobile also */
-            .sidebar {
-                width: 240px;
-                position: sticky;
-                top: 60px;
-                height: calc(100vh - 60px);
-                overflow-y: auto;
-                border-right: 1px solid #2d2d44;
-                border-bottom: none;
-                white-space: normal;
-            }
-            
-            .sidebar h3 {
-                display: block;
-                font-size: 12px;
-            }
-            
-            .topic-list {
-                display: block;
-                white-space: normal;
-            }
-            
-            .topic-list li {
-                display: block;
-            }
-            
-            .topic-list a {
-                padding: 6px 10px;
-                font-size: 12px;
-                white-space: normal;
-            }
-            
-            .content-area {
-                padding: 15px;
-                flex: 1;
-            }
-            
-            .topic-header h2 {
-                font-size: 20px;
-            }
-            
-            .content h3 {
-                font-size: 16px;
-            }
-            
-            .content p, .content li {
-                font-size: 13px;
-            }
-            
-            pre {
-                font-size: 11px;
-                padding: 12px;
-            }
-            
-            .quiz-section {
-                padding: 15px;
-            }
-            
-            .quiz-section h3 {
-                font-size: 16px;
-            }
-            
-            .quiz-question h4 {
-                font-size: 14px;
-            }
-            
-            .quiz-option label {
-                font-size: 13px;
-            }
-            
-            .btn-check {
-                width: 100%;
-                padding: 10px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .sidebar {
-                width: 220px;
-            }
-            
-            .topic-list a {
-                padding: 5px 8px;
-                font-size: 11px;
-            }
-            
-            .topic-header h2 {
-                font-size: 18px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 200px;
-            }
-            
-            .topic-list a {
-                padding: 4px 6px;
-                font-size: 10px;
-            }
-            
-            pre {
-                font-size: 10px;
-            }
+            .sidebar { width: 240px; }
+            .content-area { padding: 15px; }
+            .topic-header h2 { font-size: 20px; }
+            .btn-check { width: 100%; }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-code"></i>
-                <h1>Programming Master</h1>
-            </div>
+            <div class="logo"><i class="fas fa-code"></i><h1>Programming Master</h1></div>
             <div class="language-selector" id="languageSelector">
                 <button class="lang-btn active" data-lang="cpp">C++</button>
                 <button class="lang-btn" data-lang="python">Python</button>
                 <button class="lang-btn" data-lang="java">Java</button>
-                <button class="lang-btn" data-lang="javascript">JS</button>
+                <button class="lang-btn" data-lang="javascript">JavaScript</button>
                 <button class="lang-btn" data-lang="htmlcss">HTML/CSS</button>
             </div>
         </div>
     </nav>
-
     <div class="main-container">
-        <aside class="sidebar" id="sidebarTopics">
+        <aside class="sidebar">
             <h3>📚 TOPICS</h3>
             <ul class="topic-list" id="topicList"></ul>
+            <div class="progress-container">
+                <div class="progress-text">📊 Progress: <span id="completedCount">0</span>/<span id="totalTopics">90</span> Quizzes</div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
         </aside>
         <main class="content-area" id="contentArea"></main>
     </div>
 
     <script>
-        // Topics List - All 9 Topics
         const topicsList = [
-            { id: "intro", name: "1. Introduction" },
-            { id: "basics", name: "2. Basic Syntax" },
-            { id: "variables", name: "3. Variables & Data Types" },
-            { id: "operators", name: "4. Operators" },
-            { id: "conditionals", name: "5. Conditionals" },
-            { id: "loops", name: "6. Loops" },
-            { id: "functions", name: "7. Functions" },
-            { id: "arrays", name: "8. Arrays/Lists" },
-            { id: "oop", name: "9. OOP" }
+            { id: "intro", name: "Introduction" },
+            { id: "basics", name: "Basic Syntax" },
+            { id: "variables", name: "Variables & Data Types" },
+            { id: "operators", name: "Operators" },
+            { id: "conditionals", name: "Conditionals" },
+            { id: "loops", name: "Loops" },
+            { id: "functions", name: "Functions" },
+            { id: "arrays", name: "Arrays/Lists" },
+            { id: "oop", name: "Object Oriented Programming" }
         ];
 
-        // ==================== C++ COMPLETE ====================
-        const cppData = {
-            intro: { title: "Introduction to C++", content: `<p>C++ is a powerful general-purpose programming language developed by Bjarne Stroustrup in 1979 at Bell Labs.</p><h3>Key Features:</h3><ul><li>Object-Oriented Programming</li><li>Platform Independent</li><li>Rich Standard Library (STL)</li><li>Fast and Efficient</li></ul><div class="code-block"><div class="code-header"><span>📝 First C++ Program</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>#include &lt;iostream&gt;\nusing namespace std;\n\nint main() {\n    cout &lt;&lt; "Hello, World!" &lt;&lt; endl;\n    return 0;\n}</code></pre></div>`, quiz: { q: "Who developed C++?", opts: ["Dennis Ritchie", "Bjarne Stroustrup", "James Gosling"], ans: 1, exp: "Bjarne Stroustrup developed C++ in 1979." } },
-            basics: { title: "Basic Syntax", content: `<div class="code-block"><div class="code-header"><span>📝 Program Structure</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>#include &lt;iostream&gt;\nusing namespace std;\n\nint main() {\n    // This is a comment\n    cout &lt;&lt; "Learning C++" &lt;&lt; endl;\n    return 0;\n}</code></pre></div>`, quiz: { q: "What is the entry point?", opts: ["start()", "begin()", "main()"], ans: 2, exp: "main() is the entry point." } },
-            variables: { title: "Variables & Data Types", content: `<div class="code-block"><div class="code-header"><span>📝 Variables</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>int age = 25;\nfloat price = 99.99;\nchar grade = 'A';\nbool isPass = true;\nstring name = "John";</code></pre></div>`, quiz: { q: "Data type for whole numbers?", opts: ["float", "double", "int"], ans: 2, exp: "int stores whole numbers." } },
-            operators: { title: "Operators", content: `<div class="code-block"><div class="code-header"><span>📝 Operators</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>int sum = 10 + 5;\nint mod = 10 % 3;\nbool isEqual = (10 == 5);\nbool andResult = (true && false);</code></pre></div>`, quiz: { q: "10 % 3 = ?", opts: ["3", "1", "0"], ans: 1, exp: "% gives remainder: 1." } },
-            conditionals: { title: "Conditionals", content: `<div class="code-block"><div class="code-header"><span>📝 If-Else</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>int age = 18;\nif (age >= 18) {\n    cout << "Adult";\n} else {\n    cout << "Minor";\n}</code></pre></div>`, quiz: { q: "if(5>10) is?", opts: ["true", "false"], ans: 1, exp: "5 is not greater than 10." } },
-            loops: { title: "Loops", content: `<div class="code-block"><div class="code-header"><span>📝 For Loop</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>for(int i = 1; i <= 5; i++) {\n    cout << i << " ";\n}</code></pre></div>`, quiz: { q: "How many times? for(i=0;i<3;i++)", opts: ["2", "3", "4"], ans: 1, exp: "Runs 3 times: 0,1,2." } },
-            functions: { title: "Functions", content: `<div class="code-block"><div class="code-header"><span>📝 Function</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>int add(int a, int b) {\n    return a + b;\n}\n// Call: int result = add(5, 3);</code></pre></div>`, quiz: { q: "void means?", opts: ["Returns int", "Returns nothing"], ans: 1, exp: "void means no return value." } },
-            arrays: { title: "Arrays", content: `<div class="code-block"><div class="code-header"><span>📝 Array</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>int nums[5] = {10,20,30,40,50};\ncout << nums[0]; // First element</code></pre></div>`, quiz: { q: "First array index?", opts: ["1", "0"], ans: 1, exp: "Arrays start at 0." } },
-            oop: { title: "Object Oriented Programming", content: `<div class="code-block"><div class="code-header"><span>📝 Class</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>class Car {\npublic:\n    string brand;\n    void display() {\n        cout << brand;\n    }\n};</code></pre></div>`, quiz: { q: "What is a class?", opts: ["Variable", "Blueprint for objects"], ans: 1, exp: "Class is blueprint for objects." } }
+        // ==================== C++ COMPLETE 90 QUIZZES ====================
+        const cppQuizzes = {
+            intro: [
+                { q: "Who developed C++?", opts: ["Dennis Ritchie", "Bjarne Stroustrup", "James Gosling", "Guido van Rossum"], ans: 1, exp: "Bjarne Stroustrup developed C++ at Bell Labs in 1979." },
+                { q: "In which year was C++ first released?", opts: ["1972", "1979", "1985", "1991"], ans: 2, exp: "C++ was first released in 1985." },
+                { q: "What is C++ an extension of?", opts: ["C", "Python", "Java", "Assembly"], ans: 0, exp: "C++ is an extension of the C language." },
+                { q: "Which company created C++?", opts: ["Microsoft", "Apple", "Bell Labs", "IBM"], ans: 2, exp: "C++ was created at Bell Labs." },
+                { q: "What type of language is C++?", opts: ["Procedural only", "Object-Oriented only", "Both Procedural and OOP", "Functional"], ans: 2, exp: "C++ supports both procedural and object-oriented programming." },
+                { q: "What is the file extension for C++ files?", opts: [".c", ".cpp", ".c++", ".cc"], ans: 1, exp: "C++ files typically use .cpp extension." },
+                { q: "What is the standard output stream in C++?", opts: ["cout", "cin", "cerr", "clog"], ans: 0, exp: "cout is used for standard output." },
+                { q: "Which header is needed for input/output?", opts: ["<stdio.h>", "<iostream>", "<cstdio>", "<io.h>"], ans: 1, exp: "#include <iostream> is needed for I/O operations." },
+                { q: "What does OOP stand for?", opts: ["Object Oriented Programming", "Output Oriented Programming", "Object Operating Protocol", "None of these"], ans: 0, exp: "OOP stands for Object Oriented Programming." },
+                { q: "Which of these is NOT a C++ feature?", opts: ["Inheritance", "Polymorphism", "Garbage Collection", "Encapsulation"], ans: 2, exp: "C++ does not have built-in garbage collection." }
+            ],
+            basics: [
+                { q: "What is the correct syntax for main function?", opts: ["main()", "int main()", "void main()", "All of these"], ans: 3, exp: "All are valid but int main() is the standard." },
+                { q: "How do you write a single-line comment?", opts: ["// comment", "/* comment", "# comment", "<!-- comment"], ans: 0, exp: "// is used for single-line comments in C++." },
+                { q: "What is the purpose of 'using namespace std;'?", opts: ["To use standard library functions", "To define a namespace", "To create objects", "None of these"], ans: 0, exp: "It allows using standard library functions without std:: prefix." },
+                { q: "Every C++ program must have a ___ function?", opts: ["start()", "begin()", "main()", "run()"], ans: 2, exp: "main() is the entry point of every C++ program." },
+                { q: "What does #include do?", opts: ["Compiles code", "Links libraries", "Includes header files", "Runs the program"], ans: 2, exp: "#include includes header files in the program." },
+                { q: "What is the correct way to end a statement?", opts: [".", ";", ":", "None"], ans: 1, exp: "Statements in C++ end with a semicolon (;)." },
+                { q: "What is the output of: cout << 5 + 3;", opts: ["53", "8", "5+3", "Error"], ans: 1, exp: "5+3 = 8, and cout prints the result." },
+                { q: "Which symbol is used for multi-line comments?", opts: ["//", "/* */", "#", "<!-- -->"], ans: 1, exp: "/* */ is used for multi-line comments." },
+                { q: "What is the correct header for string operations?", opts: ["<string>", "<cstring>", "<str>", "<strings>"], ans: 0, exp: "#include <string> is needed for string operations." },
+                { q: "What does endl do?", opts: ["End line", "New line", "Flush output", "All of these"], ans: 3, exp: "endl adds new line and flushes the output buffer." }
+            ],
+            variables: [
+                { q: "Which data type is used to store whole numbers?", opts: ["float", "double", "int", "char"], ans: 2, exp: "int is used for storing whole numbers." },
+                { q: "What is the size of an int in C++ (typically)?", opts: ["2 bytes", "4 bytes", "8 bytes", "1 byte"], ans: 1, exp: "int is typically 4 bytes on most systems." },
+                { q: "Which data type is used to store decimal numbers?", opts: ["int", "char", "float", "bool"], ans: 2, exp: "float and double are used for decimal numbers." },
+                { q: "What is the correct way to declare a constant?", opts: ["const int x = 5;", "constant int x = 5;", "int constant x = 5;", "int x const = 5;"], ans: 0, exp: "const keyword is used to declare constants." },
+                { q: "Which of these is a boolean value?", opts: ["0", "1", "true", "All of these"], ans: 3, exp: "In C++, 0 is false, 1 is true, and true/false are boolean literals." },
+                { q: "What is the correct syntax for a string variable?", opts: ["string name = 'John';", "string name = \"John\";", "str name = \"John\";", "String name = \"John\";"], ans: 1, exp: "Strings use double quotes in C++." },
+                { q: "Which data type stores a single character?", opts: ["string", "char", "text", "character"], ans: 1, exp: "char stores a single character in single quotes." },
+                { q: "What is the size of a char in C++?", opts: ["1 byte", "2 bytes", "4 bytes", "8 bytes"], ans: 0, exp: "char is always 1 byte in C++." },
+                { q: "How do you declare a variable that cannot be changed?", opts: ["const", "static", "final", "readonly"], ans: 0, exp: "const keyword makes a variable read-only." },
+                { q: "What is the range of int (typically)?", opts: ["-128 to 127", "-32768 to 32767", "-2 billion to 2 billion", "0 to 65535"], ans: 2, exp: "int typically ranges from -2,147,483,648 to 2,147,483,647." }
+            ],
+            operators: [
+                { q: "What is the output of 10 % 3?", opts: ["3", "1", "0", "3.33"], ans: 1, exp: "% is modulus operator, gives remainder 1." },
+                { q: "Which operator is used for addition?", opts: ["-", "*", "+", "/"], ans: 2, exp: "+ is the addition operator." },
+                { q: "What does == operator do?", opts: ["Assignment", "Comparison", "Equality check", "Both B and C"], ans: 3, exp: "== compares two values for equality." },
+                { q: "What is the result of 5 > 3?", opts: ["true", "false", "0", "1"], ans: 0, exp: "5 > 3 is true." },
+                { q: "Which operator is used for logical AND?", opts: ["&", "&&", "|", "||"], ans: 1, exp: "&& is the logical AND operator." },
+                { q: "What is the output of 5 + 3 * 2?", opts: ["16", "11", "13", "10"], ans: 1, exp: "Multiplication has higher precedence: 3*2=6, then 5+6=11." },
+                { q: "Which operator increments a variable by 1?", opts: ["+=", "++", "+1", "inc"], ans: 1, exp: "++ is the increment operator." },
+                { q: "What does != operator mean?", opts: ["Equal to", "Not equal to", "Greater than", "Less than"], ans: 1, exp: "!= means not equal to." },
+                { q: "What is the output of 10 / 3 in integer division?", opts: ["3.33", "3", "4", "3.0"], ans: 1, exp: "Integer division truncates decimal part." },
+                { q: "Which operator has the highest precedence?", opts: ["+", "-", "*", "()"], ans: 3, exp: "Parentheses () have the highest precedence." }
+            ],
+            conditionals: [
+                { q: "What does if(5 > 10) evaluate to?", opts: ["true", "false", "error", "null"], ans: 1, exp: "5 is not greater than 10, so false." },
+                { q: "What is the syntax for if-else?", opts: ["if condition { } else { }", "if (condition) { } else { }", "if condition then { } else { }", "if [condition] { } else { }"], ans: 1, exp: "Correct syntax: if (condition) { } else { }" },
+                { q: "What does else if do?", opts: ["Checks multiple conditions", "Ends the program", "Creates a loop", "None"], ans: 0, exp: "else if allows checking multiple conditions." },
+                { q: "What is a switch statement used for?", opts: ["Loops", "Multiple condition checking", "Variable declaration", "Function definition"], ans: 1, exp: "switch is used for multiple condition checking." },
+                { q: "What is the output of: if(true) { cout << 'A'; } else { cout << 'B'; }", opts: ["A", "B", "AB", "Nothing"], ans: 0, exp: "true condition executes the if block." },
+                { q: "What does break do in switch?", opts: ["Stops the program", "Exits the switch", "Continues to next case", "None"], ans: 1, exp: "break exits the switch statement." },
+                { q: "What happens if there's no break in switch?", opts: ["Error", "Program stops", "Fall through to next case", "Nothing"], ans: 2, exp: "Execution falls through to the next case." },
+                { q: "What is the ternary operator?", opts: ["? :", "if else", "switch", "for"], ans: 0, exp: "? : is the ternary conditional operator." },
+                { q: "What does default do in switch?", opts: ["Default case", "Runs if no case matches", "Both A and B", "None"], ans: 2, exp: "default runs when no case matches." },
+                { q: "What is the output: int x = 5; if(x = 10) cout << x;", opts: ["5", "10", "Error", "Nothing"], ans: 1, exp: "Assignment operator =, so x becomes 10." }
+            ],
+            loops: [
+                { q: "How many times does for(i=0; i<3; i++) run?", opts: ["2", "3", "4", "1"], ans: 1, exp: "Runs for i=0,1,2 → 3 times." },
+                { q: "What is a while loop?", opts: ["Runs until condition false", "Runs fixed times", "Runs at least once", "None"], ans: 0, exp: "while runs while condition is true." },
+                { q: "What does do-while guarantee?", opts: ["Runs at least once", "Runs zero times", "Runs forever", "None"], ans: 0, exp: "do-while executes at least once." },
+                { q: "What does break do in loops?", opts: ["Exits loop", "Continues", "Restarts", "Pauses"], ans: 0, exp: "break exits the loop immediately." },
+                { q: "What does continue do?", opts: ["Exits loop", "Skips to next iteration", "Restarts loop", "Pauses"], ans: 1, exp: "continue skips to next iteration." },
+                { q: "What is an infinite loop?", opts: ["Never ends", "Ends quickly", "Runs once", "None"], ans: 0, exp: "Infinite loop never ends." },
+                { q: "What is the output: for(int i=0; i<5; i+=2) { cout << i; }", opts: ["0,1,2,3,4", "0,2,4", "1,3,5", "0,2"], ans: 1, exp: "i increments by 2: 0,2,4." },
+                { q: "Which loop checks condition at the end?", opts: ["for", "while", "do-while", "None"], ans: 2, exp: "do-while checks condition at the end." },
+                { q: "What is nested loop?", opts: ["Loop inside loop", "Loop with break", "Loop with continue", "None"], ans: 0, exp: "Nested loop is a loop inside another loop." },
+                { q: "What is the output: int i=0; while(i<3) { cout << i; i++; }", opts: ["0,1,2", "0,1,2,3", "1,2,3", "0,1"], ans: 0, exp: "Outputs 0,1,2." }
+            ],
+            functions: [
+                { q: "What is a function?", opts: ["Reusable code block", "Variable", "Loop", "Condition"], ans: 0, exp: "Function is a reusable block of code." },
+                { q: "What does void mean in function?", opts: ["Returns int", "Returns nothing", "Returns string", "Returns bool"], ans: 1, exp: "void means function returns nothing." },
+                { q: "What is a parameter?", opts: ["Input to function", "Output from function", "Return value", "None"], ans: 0, exp: "Parameters are inputs to functions." },
+                { q: "What is function overloading?", opts: ["Multiple functions same name", "One function", "Virtual function", "None"], ans: 0, exp: "Multiple functions with same name different parameters." },
+                { q: "What is a return statement?", opts: ["Returns value from function", "Exits program", "Creates loop", "None"], ans: 0, exp: "return sends value back to caller." },
+                { q: "What is a prototype?", opts: ["Function declaration", "Function definition", "Function call", "None"], ans: 0, exp: "Prototype declares function before definition." },
+                { q: "What is recursion?", opts: ["Function calls itself", "Loop", "Condition", "None"], ans: 0, exp: "Recursion is when function calls itself." },
+                { q: "What is default parameter?", opts: ["Default value if not provided", "Required parameter", "Optional parameter", "None"], ans: 0, exp: "Default parameter has default value." },
+                { q: "What is pass by value?", opts: ["Copies value", "Passes reference", "Passes pointer", "None"], ans: 0, exp: "Pass by value creates a copy." },
+                { q: "What is pass by reference?", opts: ["Passes original variable", "Copies value", "Passes pointer", "None"], ans: 0, exp: "Pass by reference modifies original." }
+            ],
+            arrays: [
+                { q: "What is the first index of an array?", opts: ["1", "0", "first", "begin"], ans: 1, exp: "Arrays start at index 0." },
+                { q: "How do you declare an array of 5 integers?", opts: ["int arr[5];", "int arr(5);", "array int[5];", "int[5] arr;"], ans: 0, exp: "Correct syntax: int arr[5];" },
+                { q: "How do you access the third element?", opts: ["arr[3]", "arr[2]", "arr(3)", "arr{3}"], ans: 1, exp: "Index 2 is the third element." },
+                { q: "What is a 2D array?", opts: ["Array of arrays", "One-dimensional", "Three-dimensional", "None"], ans: 0, exp: "2D array is an array of arrays." },
+                { q: "What is the size of int arr[10]?", opts: ["10 bytes", "40 bytes", "20 bytes", "80 bytes"], ans: 1, exp: "10 * 4 = 40 bytes (typically)." },
+                { q: "How do you initialize an array?", opts: ["int arr[] = {1,2,3};", "int arr[3] = {1,2,3};", "Both", "None"], ans: 2, exp: "Both are valid initialization methods." },
+                { q: "What happens if you access out of bounds?", opts: ["Error", "Undefined behavior", "Program crash", "All of these"], ans: 3, exp: "Out of bounds access causes undefined behavior." },
+                { q: "What is a multi-dimensional array?", opts: ["Array with multiple indices", "One-dimensional", "Two-dimensional", "All"], ans: 0, exp: "Multi-dimensional arrays have multiple indices." },
+                { q: "How do you get array length?", opts: ["sizeof(arr)/sizeof(arr[0])", "arr.length", "len(arr)", "size(arr)"], ans: 0, exp: "sizeof(arr)/sizeof(arr[0]) gives array length." },
+                { q: "What is a character array?", opts: ["String", "Integer array", "Float array", "Bool array"], ans: 0, exp: "Character array stores strings." }
+            ],
+            oop: [
+                { q: "What is a class?", opts: ["Blueprint for objects", "Variable", "Function", "Loop"], ans: 0, exp: "Class is a blueprint for creating objects." },
+                { q: "What is an object?", opts: ["Instance of class", "Variable", "Function", "Loop"], ans: 0, exp: "Object is an instance of a class." },
+                { q: "What is inheritance?", opts: ["Deriving new class", "Hiding data", "Polymorphism", "Encapsulation"], ans: 0, exp: "Inheritance creates new class from existing." },
+                { q: "What is polymorphism?", opts: ["Many forms", "One form", "No forms", "None"], ans: 0, exp: "Polymorphism means many forms." },
+                { q: "What is encapsulation?", opts: ["Data hiding", "Data showing", "Data deleting", "None"], ans: 0, exp: "Encapsulation bundles data and methods." },
+                { q: "What is a constructor?", opts: ["Initializes object", "Destroys object", "Creates function", "None"], ans: 0, exp: "Constructor initializes objects." },
+                { q: "What is a destructor?", opts: ["Destroys object", "Creates object", "Initializes object", "None"], ans: 0, exp: "Destructor cleans up when object is destroyed." },
+                { q: "What is public access?", opts: ["Accessible everywhere", "Only in class", "Only in derived", "None"], ans: 0, exp: "Public members are accessible everywhere." },
+                { q: "What is private access?", opts: ["Only in class", "Everywhere", "Only derived", "None"], ans: 0, exp: "Private members accessible only within class." },
+                { q: "What is a virtual function?", opts: ["Overridden in derived", "Static function", "Global function", "None"], ans: 0, exp: "Virtual functions can be overridden." }
+            ]
         };
 
-        // ==================== PYTHON ====================
-        const pythonData = JSON.parse(JSON.stringify(cppData));
-        pythonData.intro.content = `<p>Python is a high-level, interpreted language created by Guido van Rossum in 1991.</p><div class="code-block"><div class="code-header"><span>📝 First Python Program</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>print("Hello, World!")</code></pre></div>`;
-        pythonData.intro.quiz = { q: "Who created Python?", opts: ["Guido van Rossum", "Bjarne Stroustrup", "James Gosling"], ans: 0, exp: "Guido van Rossum created Python." };
-        pythonData.variables.content = `<div class="code-block"><div class="code-header"><span>📝 Variables</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>x = 10          # int\ny = 3.14        # float\nname = "John"   # str\nis_valid = True # bool</code></pre></div>`;
-        pythonData.operators.content = `<div class="code-block"><div class="code-header"><span>📝 Operators</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>sum = 10 + 5\npower = 2 ** 3  # 8\nis_equal = (10 == 5)</code></pre></div>`;
-        pythonData.loops.content = `<div class="code-block"><div class="code-header"><span>📝 For Loop</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>for i in range(5):\n    print(i)</code></pre></div>`;
-        pythonData.functions.content = `<div class="code-block"><div class="code-header"><span>📝 Function</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>def add(a, b):\n    return a + b\nresult = add(5, 3)</code></pre></div>`;
-        pythonData.arrays.content = `<div class="code-block"><div class="code-header"><span>📝 List</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>numbers = [10,20,30]\nnumbers.append(40)</code></pre></div>`;
-        pythonData.oop.content = `<div class="code-block"><div class="code-header"><span>📝 Class</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>class Car:\n    def __init__(self, brand):\n        self.brand = brand</code></pre></div>`;
-
-        // ==================== JAVA ====================
-        const javaData = JSON.parse(JSON.stringify(cppData));
-        javaData.intro.content = `<p>Java is object-oriented, created by James Gosling in 1995.</p><div class="code-block"><div class="code-header"><span>📝 First Java Program</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello!");\n    }\n}</code></pre></div>`;
-        javaData.intro.quiz = { q: "Who created Java?", opts: ["James Gosling", "Dennis Ritchie", "Guido van Rossum"], ans: 0, exp: "James Gosling created Java." };
-        javaData.variables.content = `<div class="code-block"><div class="code-header"><span>📝 Variables</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>int age = 25;\ndouble price = 99.99;\nchar grade = 'A';\nString name = "John";</code></pre></div>`;
-
-        // ==================== JAVASCRIPT ====================
-        const jsData = JSON.parse(JSON.stringify(cppData));
-        jsData.intro.content = `<p>JavaScript is the language of the web, created in 1995.</p><div class="code-block"><div class="code-header"><span>📝 First JS Program</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>console.log("Hello, World!");</code></pre></div>`;
-        jsData.intro.quiz = { q: "JavaScript is used for?", opts: ["Frontend", "Backend", "Both"], ans: 2, exp: "JavaScript works on both." };
-        jsData.variables.content = `<div class="code-block"><div class="code-header"><span>📝 Variables</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>let age = 25;\nconst PI = 3.14;\nlet name = "John";</code></pre></div>`;
-
-        // ==================== HTML/CSS ====================
-        const htmlData = JSON.parse(JSON.stringify(cppData));
-        htmlData.intro.content = `<p>HTML structures web pages, CSS styles them.</p><div class="code-block"><div class="code-header"><span>📝 HTML Structure</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>&lt;h1&gt;Hello World!&lt;/h1&gt;\n&lt;p&gt;This is a paragraph.&lt;/p&gt;</code></pre></div>`;
-        htmlData.intro.quiz = { q: "HTML stands for?", opts: ["Hyper Text Markup Language", "High Tech Language"], ans: 0, exp: "HTML = Hyper Text Markup Language." };
-        htmlData.variables.content = `<div class="code-block"><div class="code-header"><span>📝 Common Tags</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>&lt;h1&gt;Heading&lt;/h1&gt;\n&lt;p&gt;Paragraph&lt;/p&gt;\n&lt;a href="url"&gt;Link&lt;/a&gt;</code></pre></div>`;
+        // Copy for other languages
+        const pythonQuizzes = JSON.parse(JSON.stringify(cppQuizzes));
+        pythonQuizzes.intro[0] = { q: "Who created Python?", opts: ["Guido van Rossum", "Bjarne Stroustrup", "James Gosling", "Dennis Ritchie"], ans: 0, exp: "Guido van Rossum created Python in 1991." };
+        pythonQuizzes.intro[1] = { q: "What is Python?", opts: ["Interpreted language", "Compiled language", "Assembly language", "Machine language"], ans: 0, exp: "Python is an interpreted high-level language." };
+        
+        const javaQuizzes = JSON.parse(JSON.stringify(cppQuizzes));
+        javaQuizzes.intro[0] = { q: "Who created Java?", opts: ["James Gosling", "Bjarne Stroustrup", "Guido van Rossum", "Dennis Ritchie"], ans: 0, exp: "James Gosling created Java at Sun Microsystems." };
+        
+        const jsQuizzes = JSON.parse(JSON.stringify(cppQuizzes));
+        jsQuizzes.intro[0] = { q: "What is JavaScript?", opts: ["Scripting language", "Compiled language", "Markup language", "Style language"], ans: 0, exp: "JavaScript is a scripting language for web." };
+        
+        const htmlQuizzes = JSON.parse(JSON.stringify(cppQuizzes));
+        htmlQuizzes.intro[0] = { q: "What does HTML stand for?", opts: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyper Transfer Markup Language", "None"], ans: 0, exp: "HTML = Hyper Text Markup Language." };
 
         const allLanguages = {
-            cpp: { name: "C++", data: cppData },
-            python: { name: "Python", data: pythonData },
-            java: { name: "Java", data: javaData },
-            javascript: { name: "JavaScript", data: jsData },
-            htmlcss: { name: "HTML/CSS", data: htmlData }
+            cpp: { name: "C++", quizzes: cppQuizzes },
+            python: { name: "Python", quizzes: pythonQuizzes },
+            java: { name: "Java", quizzes: javaQuizzes },
+            javascript: { name: "JavaScript", quizzes: jsQuizzes },
+            htmlcss: { name: "HTML/CSS", quizzes: htmlQuizzes }
         };
 
         let currentLang = 'cpp';
         let currentTopic = 'intro';
+        let currentQuizIndex = 0;
         let completed = JSON.parse(localStorage.getItem('progMasterComplete')) || {};
 
+        function getTotalQuizzes() {
+            return 90; // 9 topics × 10 quizzes = 90 per language
+        }
+
+        function getCompletedCount() {
+            if (!completed[currentLang]) return 0;
+            return completed[currentLang].length;
+        }
+
         function updateProgress() {
-            if (!completed[currentLang]) completed[currentLang] = [];
+            const total = 90;
+            const done = getCompletedCount();
+            const percent = (done / total) * 100;
+            const fill = document.getElementById('progressFill');
+            const countSpan = document.getElementById('completedCount');
+            const totalSpan = document.getElementById('totalTopics');
+            if (fill) fill.style.width = percent + '%';
+            if (countSpan) countSpan.textContent = done;
+            if (totalSpan) totalSpan.textContent = total;
             localStorage.setItem('progMasterComplete', JSON.stringify(completed));
         }
 
-        function markComplete(topicId) {
+        function markComplete(quizId) {
             if (!completed[currentLang]) completed[currentLang] = [];
-            if (!completed[currentLang].includes(topicId)) {
-                completed[currentLang].push(topicId);
+            if (!completed[currentLang].includes(quizId)) {
+                completed[currentLang].push(quizId);
                 updateProgress();
             }
         }
 
         function loadTopic(topicId) {
             currentTopic = topicId;
-            const topicData = allLanguages[currentLang].data[topicId];
-            if (!topicData) return;
+            currentQuizIndex = 0;
+            loadQuiz();
+        }
+
+        function loadQuiz() {
+            const quizzes = allLanguages[currentLang].quizzes[currentTopic];
+            if (!quizzes || currentQuizIndex >= quizzes.length) return;
+            
+            const quiz = quizzes[currentQuizIndex];
+            const topic = topicsList.find(t => t.id === currentTopic);
+            const quizNumber = currentQuizIndex + 1;
             
             document.getElementById('contentArea').innerHTML = `
-                <div class="topic-content active">
+                <div>
                     <div class="topic-header">
-                        <h2>${topicData.title}</h2>
+                        <h2>${topic.name}</h2>
+                        <div class="quiz-counter">Quiz ${quizNumber} of 10</div>
                     </div>
-                    <div class="content">${topicData.content}</div>
+                    <div class="content">
+                        <div class="code-block">
+                            <div class="code-header"><span>📝 Example Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                            <pre><code>// ${topic.name} in ${allLanguages[currentLang].name}\n// Practice makes perfect!</code></pre>
+                        </div>
+                    </div>
                     <div class="quiz-section">
-                        <h3>📝 Test Your Knowledge</h3>
-                        <div class="quiz-question">
-                            <h4>${topicData.quiz.q}</h4>
-                            <div class="quiz-options" id="quizOptions">
-                                ${topicData.quiz.opts.map((opt, i) => `
-                                    <div class="quiz-option" onclick="selectQuizOption(${i})">
-                                        <input type="radio" name="quiz" value="${i}" id="opt${i}">
-                                        <label for="opt${i}">${opt}</label>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            <div class="quiz-feedback" id="quizFeedback"></div>
-                            <button class="btn-check" onclick="checkQuizAnswer()">✓ Check Answer</button>
+                        <h3>Test Your Knowledge</h3>
+                        <div class="quiz-question"><h4>${quiz.q}</h4></div>
+                        <div class="quiz-options" id="quizOptions">
+                            ${quiz.opts.map((opt, i) => `
+                                <div class="quiz-option" onclick="selectQuizOption(${i})">
+                                    <input type="radio" name="quiz" value="${i}" id="opt${i}">
+                                    <label for="opt${i}">${opt}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="quiz-feedback" id="quizFeedback"></div>
+                        <button class="btn-check" onclick="checkQuizAnswer()">✓ Check Answer</button>
+                        <div class="quiz-nav">
+                            ${currentQuizIndex > 0 ? '<button class="quiz-nav-btn" onclick="prevQuiz()">◀ Previous</button>' : '<div></div>'}
+                            <span style="color:#00a6ff;">Quiz ${quizNumber} of 10</span>
+                            ${currentQuizIndex < 9 ? '<button class="quiz-nav-btn" onclick="nextQuizDirect()">Next ▶</button>' : '<div></div>'}
                         </div>
                     </div>
                 </div>
             `;
             
             document.querySelectorAll('.topic-list a').forEach(link => {
-                if(link.dataset.topic === topicId) link.classList.add('active');
+                if(link.dataset.topic === currentTopic) link.classList.add('active');
                 else link.classList.remove('active');
             });
-            
-            const sidebar = document.getElementById('sidebarTopics');
-            if (topicId !== 'intro') {
-                sidebar.classList.add('hide-sidebar');
-            } else {
-                sidebar.classList.remove('hide-sidebar');
+        }
+
+        function nextQuizDirect() {
+            if (currentQuizIndex < 9) {
+                currentQuizIndex++;
+                loadQuiz();
+            }
+        }
+
+        function prevQuiz() {
+            if (currentQuizIndex > 0) {
+                currentQuizIndex--;
+                loadQuiz();
             }
         }
 
@@ -613,22 +349,24 @@
             
             const answer = parseInt(selected.value);
             const fb = document.getElementById('quizFeedback');
-            const topicData = allLanguages[currentLang].data[currentTopic];
+            const quizzes = allLanguages[currentLang].quizzes[currentTopic];
+            const quiz = quizzes[currentQuizIndex];
+            const quizId = `${currentLang}_${currentTopic}_${currentQuizIndex}`;
             
-            if(answer === topicData.quiz.ans) {
-                fb.innerHTML = `✅ Correct! ${topicData.quiz.exp}`;
+            if(answer === quiz.ans) {
+                fb.innerHTML = `✅ Correct! ${quiz.exp}`;
                 fb.className = 'quiz-feedback correct';
-                markComplete(currentTopic);
+                markComplete(quizId);
                 setTimeout(() => {
-                    const currentIndex = topicsList.findIndex(t => t.id === currentTopic);
-                    if (currentIndex < topicsList.length - 1) {
-                        loadTopic(topicsList[currentIndex + 1].id);
+                    if (currentQuizIndex < 9) {
+                        currentQuizIndex++;
+                        loadQuiz();
                     } else {
-                        alert('🎉 Congratulations! You completed all topics for ' + allLanguages[currentLang].name + '!');
+                        alert('🎉 Congratulations! You completed all 10 quizzes for this topic!');
                     }
                 }, 1200);
             } else {
-                fb.innerHTML = `❌ Wrong! Correct: ${topicData.quiz.opts[topicData.quiz.ans]}<br>💡 ${topicData.quiz.exp}`;
+                fb.innerHTML = `❌ Wrong! Correct answer: ${quiz.opts[quiz.ans]}<br>💡 ${quiz.exp}`;
                 fb.className = 'quiz-feedback wrong';
             }
         }
@@ -636,29 +374,28 @@
         function loadLanguage(lang) {
             currentLang = lang;
             currentTopic = 'intro';
+            currentQuizIndex = 0;
             
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 if(btn.dataset.lang === lang) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
             
-            const topicList = document.getElementById('topicList');
-            topicList.innerHTML = topicsList.map(topic => `
+            document.getElementById('topicList').innerHTML = topicsList.map(topic => `
                 <li><a href="#" data-topic="${topic.id}">${topic.name}</a></li>
             `).join('');
             
             document.querySelectorAll('.topic-list a').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    loadTopic(link.dataset.topic);
+                    currentTopic = link.dataset.topic;
+                    currentQuizIndex = 0;
+                    loadQuiz();
                 });
             });
             
-            const sidebar = document.getElementById('sidebarTopics');
-            sidebar.classList.remove('hide-sidebar');
-            
             updateProgress();
-            loadTopic('intro');
+            loadQuiz();
         }
 
         window.copyCode = function(btn) {
@@ -671,6 +408,8 @@
         
         window.selectQuizOption = selectQuizOption;
         window.checkQuizAnswer = checkQuizAnswer;
+        window.prevQuiz = prevQuiz;
+        window.nextQuizDirect = nextQuizDirect;
         
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => loadLanguage(btn.dataset.lang));
@@ -678,12 +417,5 @@
         
         loadLanguage('cpp');
     </script>
-
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('Service Worker registered', reg))
-      .catch(err => console.log('Service Worker error', err));
-  }
-
 </body>
 </html>
