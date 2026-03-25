@@ -19,11 +19,10 @@
             overflow-x: hidden;
         }
 
-        /* Navbar */
         .navbar {
             background: #1e1e2e;
             border-bottom: 1px solid #2d2d44;
-            padding: 12px 20px;
+            padding: 10px 15px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -36,22 +35,22 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .logo i {
-            font-size: 24px;
+            font-size: 20px;
             color: #00a6ff;
         }
 
         .logo h1 {
-            font-size: 18px;
+            font-size: 16px;
             background: linear-gradient(135deg, #00a6ff, #00ff9d);
             -webkit-background-clip: text;
             background-clip: text;
@@ -60,19 +59,19 @@
 
         .language-selector {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
         .lang-btn {
-            padding: 6px 14px;
+            padding: 4px 10px;
             background: #2d2d44;
             border: none;
-            border-radius: 20px;
+            border-radius: 16px;
             color: #a0a0c0;
             cursor: pointer;
             font-weight: 500;
-            font-size: 13px;
+            font-size: 11px;
             transition: all 0.2s;
         }
 
@@ -81,23 +80,21 @@
             color: white;
         }
 
-        /* Main Container - Flex Row Always */
         .main-container {
             display: flex;
             max-width: 1400px;
             margin: 0 auto;
-            min-height: calc(100vh - 60px);
+            min-height: calc(100vh - 56px);
         }
 
-        /* Sidebar - Fixed Width Always Visible */
         .sidebar {
-            width: 280px;
+            width: 260px;
             background: #1e1e2e;
             border-right: 1px solid #2d2d44;
-            padding: 20px 12px;
+            padding: 15px 12px;
             position: sticky;
-            top: 60px;
-            height: calc(100vh - 60px);
+            top: 56px;
+            height: calc(100vh - 56px);
             overflow-y: auto;
             flex-shrink: 0;
         }
@@ -134,42 +131,24 @@
             color: #00a6ff;
         }
 
-        /* Progress Container */
-        .progress-container {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #2d2d44;
-        }
-        
-        .progress-text {
-            color: #a0a0c0;
-            font-size: 12px;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        
-        .progress-bar {
-            background: #2d2d44;
-            height: 6px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            background: linear-gradient(90deg, #00a6ff, #00ff9d);
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 10px;
+        /* Hide sidebar on non-intro pages */
+        .sidebar.hide-sidebar {
+            display: none;
         }
 
-        /* Content Area - Takes Remaining Space */
         .content-area {
             flex: 1;
             padding: 20px 30px;
             background: #0a0e27;
             min-width: 0;
             overflow-x: auto;
+        }
+
+        /* When sidebar hidden, content takes full width */
+        .sidebar.hide-sidebar + .content-area {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .topic-header h2 {
@@ -182,19 +161,6 @@
             color: #00a6ff;
             font-size: 14px;
             margin-bottom: 20px;
-        }
-
-        .content h3 {
-            color: #00a6ff;
-            font-size: 18px;
-            margin: 20px 0 12px 0;
-        }
-
-        .content p {
-            color: #e0e0e0;
-            line-height: 1.6;
-            margin-bottom: 12px;
-            font-size: 14px;
         }
 
         .code-block {
@@ -335,7 +301,7 @@
             cursor: pointer;
             font-size: 14px;
             transition: transform 0.2s;
-            width: auto;
+            width: 100%;
         }
 
         .btn-check:hover {
@@ -365,14 +331,14 @@
             background: #00a6ff;
         }
 
-        /* ========== MOBILE RESPONSIVE ========== */
+        /* ========== MOBILE RESPONSIVE - QUIZ TAKES 90% SPACE ========== */
         @media (max-width: 768px) {
             .navbar {
-                padding: 10px 12px;
+                padding: 8px 12px;
             }
             
             .logo i {
-                font-size: 20px;
+                font-size: 18px;
             }
             
             .logo h1 {
@@ -380,32 +346,58 @@
             }
             
             .lang-btn {
-                padding: 4px 10px;
-                font-size: 11px;
-            }
-            
-            /* Sidebar fixed width on mobile */
-            .sidebar {
-                width: 220px;
-                padding: 15px 8px;
-            }
-            
-            .sidebar h3 {
-                font-size: 11px;
-                padding-left: 6px;
-            }
-            
-            .topic-list a {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-            
-            .progress-text {
+                padding: 3px 8px;
                 font-size: 10px;
             }
             
+            /* Sidebar becomes floating on mobile */
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 56px;
+                width: 260px;
+                height: calc(100vh - 56px);
+                z-index: 1000;
+                transition: left 0.3s ease;
+                background: #1e1e2e;
+                border-right: 1px solid #2d2d44;
+            }
+            
+            .sidebar.show-sidebar {
+                left: 0;
+            }
+            
+            /* Menu button for mobile */
+            .menu-btn {
+                display: block;
+                background: transparent;
+                border: none;
+                color: #00a6ff;
+                font-size: 20px;
+                cursor: pointer;
+                margin-right: 10px;
+            }
+            
+            /* Hide sidebar by default, show only when menu clicked */
+            .sidebar.hide-sidebar {
+                display: block;
+                left: -280px;
+            }
+            
+            .sidebar.hide-sidebar.show-sidebar {
+                left: 0;
+            }
+            
             .content-area {
-                padding: 15px;
+                padding: 12px;
+                width: 100%;
+            }
+            
+            /* Content takes full width */
+            .sidebar.hide-sidebar + .content-area {
+                width: 100%;
+                margin: 0;
+                padding: 12px;
             }
             
             .topic-header h2 {
@@ -433,13 +425,12 @@
             }
             
             .quiz-option label {
-                font-size: 12px;
+                font-size: 13px;
             }
             
             .btn-check {
-                padding: 8px 16px;
+                padding: 10px;
                 font-size: 13px;
-                width: 100%;
             }
             
             .quiz-nav-btn {
@@ -457,71 +448,96 @@
             }
         }
 
-        @media (max-width: 600px) {
-            .sidebar {
-                width: 200px;
-            }
-            
-            .topic-list a {
-                padding: 5px 8px;
-                font-size: 11px;
-            }
-            
+        @media (max-width: 480px) {
             .content-area {
-                padding: 12px;
+                padding: 10px;
             }
             
             .topic-header h2 {
                 font-size: 18px;
             }
-        }
-
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 180px;
-            }
             
-            .topic-list a {
-                padding: 4px 6px;
-                font-size: 10px;
+            .quiz-question h4 {
+                font-size: 13px;
             }
             
             .quiz-option label {
-                font-size: 11px;
+                font-size: 12px;
+            }
+        }
+        
+        /* Menu button styles */
+        .menu-btn {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
             }
             
-            pre {
-                font-size: 10px;
+            .nav-container {
+                position: relative;
             }
+        }
+        
+        /* Overlay when sidebar is open */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        
+        .overlay.show {
+            display: block;
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo"><i class="fas fa-code"></i><h1>Programming Master</h1></div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="menu-btn" id="menuBtn" onclick="toggleSidebar()">☰</button>
+                <div class="logo"><i class="fas fa-code"></i><h1>Programming Master</h1></div>
+            </div>
             <div class="language-selector" id="languageSelector">
                 <button class="lang-btn active" data-lang="cpp">C++</button>
                 <button class="lang-btn" data-lang="python">Python</button>
                 <button class="lang-btn" data-lang="java">Java</button>
-                <button class="lang-btn" data-lang="javascript">JavaScript</button>
+                <button class="lang-btn" data-lang="javascript">JS</button>
                 <button class="lang-btn" data-lang="htmlcss">HTML/CSS</button>
             </div>
         </div>
     </nav>
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
     <div class="main-container">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebarTopics">
             <h3>📚 TOPICS</h3>
             <ul class="topic-list" id="topicList"></ul>
-            <div class="progress-container">
-                <div class="progress-text">📊 Progress: <span id="completedCount">0</span>/<span id="totalTopics">90</span> Quizzes</div>
-                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-            </div>
         </aside>
         <main class="content-area" id="contentArea"></main>
     </div>
 
     <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarTopics');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('show-sidebar');
+            overlay.classList.toggle('show');
+        }
+        
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebarTopics');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.remove('show-sidebar');
+            overlay.classList.remove('show');
+        }
+
         const topicsList = [
             { id: "intro", name: "Introduction" },
             { id: "basics", name: "Basic Syntax" },
@@ -534,7 +550,7 @@
             { id: "oop", name: "Object Oriented Programming" }
         ];
 
-        // ==================== C++ COMPLETE 90 QUIZZES ====================
+        // C++ Quizzes (10 per topic)
         const cppQuizzes = {
             intro: [
                 { q: "Who developed C++?", opts: ["Dennis Ritchie", "Bjarne Stroustrup", "James Gosling", "Guido van Rossum"], ans: 1, exp: "Bjarne Stroustrup developed C++ at Bell Labs in 1979." },
@@ -670,42 +686,12 @@
         let currentLang = 'cpp';
         let currentTopic = 'intro';
         let currentQuizIndex = 0;
-        let completed = JSON.parse(localStorage.getItem('progMasterComplete')) || {};
-
-        function getTotalQuizzes() {
-            return 90;
-        }
-
-        function getCompletedCount() {
-            if (!completed[currentLang]) return 0;
-            return completed[currentLang].length;
-        }
-
-        function updateProgress() {
-            const total = 90;
-            const done = getCompletedCount();
-            const percent = (done / total) * 100;
-            const fill = document.getElementById('progressFill');
-            const countSpan = document.getElementById('completedCount');
-            const totalSpan = document.getElementById('totalTopics');
-            if (fill) fill.style.width = percent + '%';
-            if (countSpan) countSpan.textContent = done;
-            if (totalSpan) totalSpan.textContent = total;
-            localStorage.setItem('progMasterComplete', JSON.stringify(completed));
-        }
-
-        function markComplete(quizId) {
-            if (!completed[currentLang]) completed[currentLang] = [];
-            if (!completed[currentLang].includes(quizId)) {
-                completed[currentLang].push(quizId);
-                updateProgress();
-            }
-        }
 
         function loadTopic(topicId) {
             currentTopic = topicId;
             currentQuizIndex = 0;
             loadQuiz();
+            closeSidebar();
         }
 
         function loadQuiz() {
@@ -722,11 +708,9 @@
                         <h2>${topic.name}</h2>
                         <div class="quiz-counter">Quiz ${quizNumber} of 10</div>
                     </div>
-                    <div class="content">
-                        <div class="code-block">
-                            <div class="code-header"><span>📝 Example Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-                            <pre><code>// ${topic.name} in ${allLanguages[currentLang].name}\n// Practice makes perfect!</code></pre>
-                        </div>
+                    <div class="code-block">
+                        <div class="code-header"><span>📝 Example Code</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                        <pre><code>// ${topic.name} in ${allLanguages[currentLang].name}\n// Practice makes perfect!</code></pre>
                     </div>
                     <div class="quiz-section">
                         <h3>Test Your Knowledge</h3>
@@ -783,12 +767,10 @@
             const fb = document.getElementById('quizFeedback');
             const quizzes = allLanguages[currentLang].quizzes[currentTopic];
             const quiz = quizzes[currentQuizIndex];
-            const quizId = `${currentLang}_${currentTopic}_${currentQuizIndex}`;
             
             if(answer === quiz.ans) {
                 fb.innerHTML = `✅ Correct! ${quiz.exp}`;
                 fb.className = 'quiz-feedback correct';
-                markComplete(quizId);
                 setTimeout(() => {
                     if (currentQuizIndex < 9) {
                         currentQuizIndex++;
@@ -820,13 +802,10 @@
             document.querySelectorAll('.topic-list a').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    currentTopic = link.dataset.topic;
-                    currentQuizIndex = 0;
-                    loadQuiz();
+                    loadTopic(link.dataset.topic);
                 });
             });
             
-            updateProgress();
             loadQuiz();
         }
 
@@ -842,6 +821,8 @@
         window.checkQuizAnswer = checkQuizAnswer;
         window.prevQuiz = prevQuiz;
         window.nextQuizDirect = nextQuizDirect;
+        window.toggleSidebar = toggleSidebar;
+        window.closeSidebar = closeSidebar;
         
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => loadLanguage(btn.dataset.lang));
