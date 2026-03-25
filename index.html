@@ -7,59 +7,492 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #0a0e27; overflow-x: hidden; }
-        .navbar { background: #1e1e2e; border-bottom: 1px solid #2d2d44; padding: 12px 20px; position: sticky; top: 0; z-index: 100; }
-        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .logo { display: flex; align-items: center; gap: 8px; }
-        .logo i { font-size: 24px; color: #00a6ff; }
-        .logo h1 { font-size: 18px; background: linear-gradient(135deg, #00a6ff, #00ff9d); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .language-selector { display: flex; gap: 8px; flex-wrap: wrap; }
-        .lang-btn { padding: 6px 14px; background: #2d2d44; border: none; border-radius: 20px; color: #a0a0c0; cursor: pointer; font-weight: 500; font-size: 13px; transition: all 0.2s; }
-        .lang-btn:hover, .lang-btn.active { background: #00a6ff; color: white; }
-        .main-container { display: flex; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 60px); }
-        .sidebar { width: 280px; background: #1e1e2e; border-right: 1px solid #2d2d44; padding: 20px 12px; position: sticky; top: 60px; height: calc(100vh - 60px); overflow-y: auto; }
-        .sidebar h3 { color: white; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; padding-left: 8px; }
-        .topic-list { list-style: none; }
-        .topic-list li { margin-bottom: 4px; }
-        .topic-list a { color: #a0a0c0; text-decoration: none; display: block; padding: 8px 12px; border-radius: 8px; font-size: 14px; transition: all 0.2s; }
-        .topic-list a:hover, .topic-list a.active { background: #2d2d44; color: #00a6ff; }
-        .progress-container { margin-top: 20px; padding-top: 15px; border-top: 1px solid #2d2d44; }
-        .progress-text { color: #a0a0c0; font-size: 12px; margin-bottom: 8px; text-align: center; }
-        .progress-bar { background: #2d2d44; height: 6px; border-radius: 10px; overflow: hidden; }
-        .progress-fill { background: linear-gradient(90deg, #00a6ff, #00ff9d); height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 10px; }
-        .content-area { flex: 1; padding: 20px 30px; background: #0a0e27; }
-        .topic-header h2 { font-size: 28px; color: white; margin-bottom: 10px; }
-        .quiz-counter { color: #00a6ff; font-size: 14px; margin-bottom: 20px; }
-        .content h3 { color: #00a6ff; font-size: 18px; margin: 20px 0 12px 0; }
-        .content p { color: #e0e0e0; line-height: 1.6; margin-bottom: 12px; font-size: 14px; }
-        .code-block { background: #1e1e2e; border-radius: 10px; margin: 15px 0; overflow: hidden; border: 1px solid #2d2d44; }
-        .code-header { background: #2d2d44; padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; }
-        .code-header span { color: #00a6ff; font-family: monospace; font-size: 12px; }
-        .copy-btn { background: transparent; border: none; color: #a0a0c0; cursor: pointer; padding: 4px 10px; border-radius: 5px; font-size: 12px; }
-        .copy-btn:hover { background: #3d3d5c; color: white; }
-        pre { margin: 0; padding: 15px; overflow-x: auto; font-family: monospace; font-size: 13px; line-height: 1.5; color: #d4d4d4; background: #1e1e2e; }
-        .quiz-section { background: #1e1e2e; border-radius: 12px; padding: 20px; margin-top: 25px; border: 1px solid #2d2d44; }
-        .quiz-section h3 { color: white; margin-bottom: 12px; font-size: 18px; }
-        .quiz-question h4 { color: white; margin-bottom: 15px; font-size: 16px; line-height: 1.4; }
-        .quiz-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .quiz-option { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: #2d2d44; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
-        .quiz-option:hover { background: #3d3d5c; }
-        .quiz-option input { width: 16px; height: 16px; cursor: pointer; }
-        .quiz-option label { color: #e0e0e0; cursor: pointer; flex: 1; font-size: 14px; }
-        .quiz-feedback { padding: 12px; border-radius: 8px; margin: 12px 0; display: none; font-size: 14px; }
-        .quiz-feedback.correct { background: rgba(0, 255, 100, 0.15); border-left: 3px solid #00ff64; color: #a0ffa0; display: block; }
-        .quiz-feedback.wrong { background: rgba(255, 80, 80, 0.15); border-left: 3px solid #ff5555; color: #ffaaaa; display: block; }
-        .btn-check { background: linear-gradient(135deg, #00a6ff, #00ff9d); color: #0a0e27; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; transition: transform 0.2s; }
-        .btn-check:hover { transform: translateY(-1px); }
-        .quiz-nav { display: flex; justify-content: space-between; margin-top: 15px; gap: 10px; align-items: center; }
-        .quiz-nav-btn { background: #2d2d44; border: none; padding: 8px 15px; border-radius: 8px; color: white; cursor: pointer; font-size: 12px; transition: all 0.2s; }
-        .quiz-nav-btn:hover { background: #00a6ff; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0e27;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #1e1e2e;
+            border-bottom: 1px solid #2d2d44;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            font-size: 24px;
+            color: #00a6ff;
+        }
+
+        .logo h1 {
+            font-size: 18px;
+            background: linear-gradient(135deg, #00a6ff, #00ff9d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            background: #2d2d44;
+            border: none;
+            border-radius: 20px;
+            color: #a0a0c0;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: #00a6ff;
+            color: white;
+        }
+
+        /* Main Container - Flex Row Always */
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Sidebar - Fixed Width Always Visible */
+        .sidebar {
+            width: 280px;
+            background: #1e1e2e;
+            border-right: 1px solid #2d2d44;
+            padding: 20px 12px;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar h3 {
+            color: white;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            padding-left: 8px;
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-list li {
+            margin-bottom: 4px;
+        }
+
+        .topic-list a {
+            color: #a0a0c0;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .topic-list a:hover, .topic-list a.active {
+            background: #2d2d44;
+            color: #00a6ff;
+        }
+
+        /* Progress Container */
+        .progress-container {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #2d2d44;
+        }
+        
+        .progress-text {
+            color: #a0a0c0;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            background: #2d2d44;
+            height: 6px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #00a6ff, #00ff9d);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        /* Content Area - Takes Remaining Space */
+        .content-area {
+            flex: 1;
+            padding: 20px 30px;
+            background: #0a0e27;
+            min-width: 0;
+            overflow-x: auto;
+        }
+
+        .topic-header h2 {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .quiz-counter {
+            color: #00a6ff;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .content h3 {
+            color: #00a6ff;
+            font-size: 18px;
+            margin: 20px 0 12px 0;
+        }
+
+        .content p {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid #2d2d44;
+        }
+
+        .code-header {
+            background: #2d2d44;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .code-header span {
+            color: #00a6ff;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #a0a0c0;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #3d3d5c;
+            color: white;
+        }
+
+        pre {
+            margin: 0;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #d4d4d4;
+            background: #1e1e2e;
+        }
+
+        .quiz-section {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 1px solid #2d2d44;
+        }
+
+        .quiz-section h3 {
+            color: white;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .quiz-question h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            background: #2d2d44;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            background: #3d3d5c;
+        }
+
+        .quiz-option input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .quiz-option label {
+            color: #e0e0e0;
+            cursor: pointer;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .quiz-feedback {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px 0;
+            display: none;
+            font-size: 14px;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(0, 255, 100, 0.15);
+            border-left: 3px solid #00ff64;
+            color: #a0ffa0;
+            display: block;
+        }
+
+        .quiz-feedback.wrong {
+            background: rgba(255, 80, 80, 0.15);
+            border-left: 3px solid #ff5555;
+            color: #ffaaaa;
+            display: block;
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, #00a6ff, #00ff9d);
+            color: #0a0e27;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.2s;
+            width: auto;
+        }
+
+        .btn-check:hover {
+            transform: translateY(-1px);
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .quiz-nav-btn {
+            background: #2d2d44;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .quiz-nav-btn:hover {
+            background: #00a6ff;
+        }
+
+        /* ========== MOBILE RESPONSIVE ========== */
         @media (max-width: 768px) {
-            .sidebar { width: 240px; }
-            .content-area { padding: 15px; }
-            .topic-header h2 { font-size: 20px; }
-            .btn-check { width: 100%; }
+            .navbar {
+                padding: 10px 12px;
+            }
+            
+            .logo i {
+                font-size: 20px;
+            }
+            
+            .logo h1 {
+                font-size: 14px;
+            }
+            
+            .lang-btn {
+                padding: 4px 10px;
+                font-size: 11px;
+            }
+            
+            /* Sidebar fixed width on mobile */
+            .sidebar {
+                width: 220px;
+                padding: 15px 8px;
+            }
+            
+            .sidebar h3 {
+                font-size: 11px;
+                padding-left: 6px;
+            }
+            
+            .topic-list a {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            .progress-text {
+                font-size: 10px;
+            }
+            
+            .content-area {
+                padding: 15px;
+            }
+            
+            .topic-header h2 {
+                font-size: 20px;
+            }
+            
+            .quiz-counter {
+                font-size: 12px;
+            }
+            
+            .quiz-section {
+                padding: 15px;
+            }
+            
+            .quiz-section h3 {
+                font-size: 16px;
+            }
+            
+            .quiz-question h4 {
+                font-size: 14px;
+            }
+            
+            .quiz-option {
+                padding: 8px 12px;
+            }
+            
+            .quiz-option label {
+                font-size: 12px;
+            }
+            
+            .btn-check {
+                padding: 8px 16px;
+                font-size: 13px;
+                width: 100%;
+            }
+            
+            .quiz-nav-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+            
+            pre {
+                font-size: 11px;
+                padding: 10px;
+            }
+            
+            .code-header span {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .topic-list a {
+                padding: 5px 8px;
+                font-size: 11px;
+            }
+            
+            .content-area {
+                padding: 12px;
+            }
+            
+            .topic-header h2 {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 180px;
+            }
+            
+            .topic-list a {
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+            
+            .quiz-option label {
+                font-size: 11px;
+            }
+            
+            pre {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -216,7 +649,6 @@
         // Copy for other languages
         const pythonQuizzes = JSON.parse(JSON.stringify(cppQuizzes));
         pythonQuizzes.intro[0] = { q: "Who created Python?", opts: ["Guido van Rossum", "Bjarne Stroustrup", "James Gosling", "Dennis Ritchie"], ans: 0, exp: "Guido van Rossum created Python in 1991." };
-        pythonQuizzes.intro[1] = { q: "What is Python?", opts: ["Interpreted language", "Compiled language", "Assembly language", "Machine language"], ans: 0, exp: "Python is an interpreted high-level language." };
         
         const javaQuizzes = JSON.parse(JSON.stringify(cppQuizzes));
         javaQuizzes.intro[0] = { q: "Who created Java?", opts: ["James Gosling", "Bjarne Stroustrup", "Guido van Rossum", "Dennis Ritchie"], ans: 0, exp: "James Gosling created Java at Sun Microsystems." };
@@ -241,7 +673,7 @@
         let completed = JSON.parse(localStorage.getItem('progMasterComplete')) || {};
 
         function getTotalQuizzes() {
-            return 90; // 9 topics × 10 quizzes = 90 per language
+            return 90;
         }
 
         function getCompletedCount() {
